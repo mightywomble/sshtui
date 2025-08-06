@@ -1,0 +1,66 @@
+{
+  "keys": [
+    {
+      "name": "default",
+      "path": "~/.ssh/id_rsa",
+      "is_default": true
+    },
+    {
+      "name": "server_key",
+      "path": "~/.ssh/server_key",
+      "is_default": false
+    },
+    {
+      "name": "test_key",
+      "path": "/Users/david/code/sshtuirust/test_key",
+      "is_default": false
+    }
+  ],
+  "groups": [
+    {
+      "name": "All",
+      "color": "white",
+      "hosts": []
+    },
+    {
+      "name": "Development",
+      "color": "green",
+      "hosts": [
+        {
+          "name": "dev-server",
+          "host": "dev.example.com",
+          "port": 22,
+          "user": "developer",
+          "key_path": null
+        },
+        {
+          "name": "local-vm",
+          "host": "192.168.1.100",
+          "port": 22,
+          "user": "ubuntu",
+          "key_path": "~/.ssh/id_rsa"
+        },
+        {
+          "name": "localhost",
+          "host": "localhost",
+          "port": 22,
+          "user": "david",
+          "key_path": "/Users/david/code/sshtuirust/test_key"
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "color": "red",
+      "hosts": [
+        {
+          "name": "web-server",
+          "host": "prod.example.com",
+          "port": 22,
+          "user": "admin",
+          "key_path": "~/.ssh/server_key"
+        }
+      ]
+    }
+  ]
+}

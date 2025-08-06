@@ -1,0 +1,24 @@
+[package]
+name = "sshtuirust"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.0", features = ["full"] }
+log = "0.4"
+env_logger = "0.10"
+portable-pty = "0.8"
+russh-keys = "0.43"
+futures = "0.3"
+crossterm = { version = "0.27", features = ["event-stream"] }
+ratatui = "0.24"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+copypasta = "0.10"
+vte = "0.13"
+bytes = "1.0"
+dirs = "5.0"
+async-trait = "0.1"
+lazy_static = "1.4"
