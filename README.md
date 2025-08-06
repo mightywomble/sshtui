@@ -1,39 +1,49 @@
-# SSH TUI Manager - Rust Edition 🦀
+# SSH TUI Manager 🦀
 
-A **proof-of-concept** Rust implementation of the SSH TUI Manager, demonstrating **raw SSH terminal functionality directly within the UI panel** - no mode switching required!
+A powerful terminal-based SSH connection manager written in Rust, featuring **raw SSH terminal functionality directly within the UI panel** - no mode switching required!
 
-## 🚀 **Key Innovation**
+## 🚀 **Key Features**
 
-Unlike the Go version which requires switching between different terminal modes:
-- **Go Version**: Standard Mode → Fullscreen Mode → Raw Mode (3 separate modes)
-- **Rust Version**: **Raw terminal works directly in-panel** (unified experience)
+- **Unified Experience**: Raw terminal works directly in-panel without mode switching
+- **Full TUI App Support**: vim, nano, emacs, htop, tmux work perfectly in the terminal panel
+- **Always-Visible Sidebar**: Keep your connection list accessible while working
+- **Modern Interface**: Mouse and keyboard navigation with colorful, intuitive UI
+- **Complete SSH Management**: Add, edit, delete SSH keys, groups, and hosts
 
-## ⚡ **What This Enables**
+## ⚡ **What Works**
 
 - **vim/nano/emacs** work perfectly within the terminal panel
 - **htop/top/iotop** display correctly within the panel bounds
 - **tmux/screen** sessions run seamlessly in the panel
 - **Interactive shells** (Python REPL, database shells) work flawlessly
 - **Sidebar stays visible** while using any TUI application
+- **Mouse support** for clicking on items, buttons, and scrolling
+- **Keyboard shortcuts** for efficient navigation and management
 
 ## 🎯 **Technical Achievement**
 
-This Rust implementation demonstrates how to:
-1. **Parse ANSI escape sequences** using the `vte` crate
-2. **Render styled terminal content** within ratatui widget bounds
-3. **Coordinate between TUI framework and raw terminal data**
-4. **Maintain precise cursor positioning** and screen clearing within panels
-5. **Handle terminal resizing** for both the UI and SSH PTY
+This implementation showcases:
+1. **ANSI escape sequence parsing** using the `vte` crate
+2. **Styled terminal content rendering** within ratatui widget bounds
+3. **Coordination between TUI framework and raw terminal data**
+4. **Precise cursor positioning** and screen clearing within panels
+5. **Terminal resizing handling** for both the UI and SSH PTY
+6. **Async SSH connections** with proper PTY management
 
-## 🛠️ **Current Status**
+## ✅ **Current Status**
 
-This is a **demonstration/proof-of-concept** showing:
+**Fully functional SSH TUI Manager** with:
 - ✅ Complete UI layout with sidebar panels
-- ✅ Configuration file loading (SSH keys, groups, hosts)
+- ✅ Configuration file loading and saving (SSH keys, groups, hosts)
 - ✅ Panel navigation and focus management
-- ✅ Raw terminal panel implementation structure
-- ❌ Actual SSH connection (not implemented in demo)
-- ❌ Add/Edit/Delete functionality (read-only demo)
+- ✅ Raw terminal panel with VTE parsing
+- ✅ Full SSH connection functionality using portable-pty
+- ✅ Add/Edit/Delete operations for keys, groups, and hosts
+- ✅ Mouse support for all UI interactions
+- ✅ Keyboard shortcuts and navigation
+- ✅ Modal dialogs with form handling
+- ✅ SSH key selector with dropdown interface
+- ✅ Colorful dashboard with live statistics
 
 ## 📋 **Requirements**
 
@@ -52,29 +62,51 @@ cargo build --release
 cargo run
 ```
 
-## 🎮 **Demo Controls**
+## 🎮 **Controls**
 
-- **TAB / Shift+TAB**: Navigate between panels (Keys/Groups/Hosts)
-- **↑/↓ Arrow Keys**: Navigate within panels
-- **Enter**: Simulate connection (shows message)
-- **Ctrl+Q**: Exit application
+### Keyboard Navigation
+- **TAB / Shift+TAB**: Navigate between panels and buttons
+- **↑/↓ Arrow Keys**: Navigate within panels and forms
+- **Enter**: Connect to selected host or submit forms
+- **ESC**: Close modals and cancel operations
 
-## 🏗️ **Architecture**
+### Management Operations
+- **Ctrl+N**: Add new (Key/Group/Host depending on focused panel)
+- **Ctrl+E**: Edit selected item
+- **Ctrl+D**: Delete selected item
+- **Ctrl+H**: Show help popup
+- **Ctrl+Q**: Quit application or disconnect SSH
+
+### SSH Terminal Controls
+- **Ctrl+C**: Send interrupt to SSH session
+- **All other keys**: Sent directly to SSH terminal
+
+### Mouse Support
+- **Left Click**: Select items, focus panels, click buttons
+- **Double Click**: Connect to host (in hosts panel)
+- **Scroll Wheel**: Scroll through lists
+- **Click outside modal**: Close modal dialogs
+
+## 🏠️ **Architecture**
 
 ### Core Components
 
-1. **`config.rs`** - Configuration management (JSON-based)
-2. **`ui_simple.rs`** - Main UI rendering logic
-3. **`dashboard.rs`** - Welcome screen content
-4. **`terminal_panel.rs`** - Raw terminal panel implementation (not used in demo)
-5. **`main_simple.rs`** - Application entry point and event loop
+1. **`config.rs`** - Configuration management (JSON-based with auto-save)
+2. **`main.rs`** - Application entry point and main event loop
+3. **`ui.rs`** - Main UI rendering and layout management
+4. **`ssh.rs`** - SSH connection handling with portable-pty
+5. **`terminal_panel.rs`** - Raw terminal panel with VTE parsing
+6. **`modal.rs`** - Modal dialogs for forms and user input
+7. **`dashboard.rs`** - Welcome screen and statistics display
 
 ### Key Technical Elements
 
-- **ratatui** for TUI framework
-- **crossterm** for terminal control
+- **ratatui** for TUI framework and widget rendering
+- **crossterm** for terminal control and mouse/keyboard events
 - **VTE parser** for ANSI escape sequence handling
-- **Tokio** for async runtime (future SSH connections)
+- **portable-pty** for proper SSH PTY management
+- **Tokio** for async runtime and SSH connections
+- **Serde** for JSON configuration serialization
 
 ## 🔬 **The Raw Terminal Panel Concept**
 
@@ -96,38 +128,23 @@ impl RawTerminalPanel {
 }
 ```
 
-## 🆚 **Comparison with Go Version**
-
-| Feature | Go Implementation | Rust Implementation |
-|---------|-------------------|-------------------|
-| **Mode Switching** | Required (3 modes) | Not needed |
-| **TUI App Support** | Raw mode only | In-panel directly |
-| **Sidebar Visibility** | Hidden in raw mode | Always visible |
-| **Context Switching** | Mode → Fullscreen → Raw | Direct interaction |
-| **Memory Safety** | GC overhead | Zero-cost abstractions |
-| **Terminal Control** | Bubble Tea limitations | Direct VTE parsing |
-
 ## 🎨 **Visual Experience**
 
 The application features:
-- **Colorful dashboard** with live statistics
-- **Focus highlighting** with yellow borders
-- **Context-sensitive help** at the bottom
-- **Status messages** for user feedback
-- **Emoji-rich interface** for visual appeal
+- **Colorful dashboard** with live statistics and inspirational quotes
+- **Focus highlighting** with yellow borders and clear visual feedback
+- **Context-sensitive help** displayed at the bottom
+- **Status messages** for user feedback and operation confirmation
+- **Smooth mouse interaction** with click feedback
+- **Responsive layout** that adapts to terminal size changes
 
 ## 🔧 **Configuration**
 
-Uses the same JSON configuration format as the Go version:
+Configuration is stored in `~/.sshtui.json` and auto-saved when modified:
 
 ```json
 {
   "groups": [
-    {
-      "name": "All",
-      "color": "blue", 
-      "hosts": []
-    },
     {
       "name": "Production",
       "color": "red",
@@ -137,7 +154,20 @@ Uses the same JSON configuration format as the Go version:
           "host": "web.example.com",
           "user": "admin",
           "port": 22,
-          "key_path": "/path/to/key"
+          "key_path": "/home/user/.ssh/id_rsa"
+        }
+      ]
+    },
+    {
+      "name": "Development",
+      "color": "green",
+      "hosts": [
+        {
+          "name": "Dev Server",
+          "host": "dev.example.com",
+          "user": "developer",
+          "port": 2222,
+          "key_path": "/home/user/.ssh/dev_key"
         }
       ]
     }
@@ -147,25 +177,42 @@ Uses the same JSON configuration format as the Go version:
       "name": "Default Key",
       "path": "/home/user/.ssh/id_rsa",
       "is_default": true
+    },
+    {
+      "name": "Development Key",
+      "path": "/home/user/.ssh/dev_key",
+      "is_default": false
     }
   ]
 }
 ```
 
-## 🧪 **Implementation Notes**
+### Configuration Features
+- **Automatic saving** - Changes are persisted immediately
+- **Color-coded groups** - Organize hosts with visual distinction
+- **SSH key management** - Centralized key storage with dropdown selection
+- **Special "All" group** - Automatically shows hosts from all groups
 
-This proof-of-concept demonstrates that **Rust's lower-level terminal control** combined with **sophisticated parsing libraries** can achieve what's difficult in higher-level TUI frameworks.
+## 🧪 **Implementation Highlights**
 
-The key insight is using the **VTE parser** to process SSH escape sequences while **ratatui handles the overall layout** - giving us the best of both worlds.
+This implementation demonstrates that **Rust's lower-level terminal control** combined with **sophisticated parsing libraries** can achieve seamless SSH terminal integration within TUI panels.
 
-## 🚧 **Future Development**
+**Key Technical Insights:**
+- **VTE parser** processes SSH escape sequences while **ratatui handles the overall layout**
+- **portable-pty** provides proper PTY management for stable SSH connections
+- **Async event handling** allows smooth UI updates while maintaining SSH session responsiveness
+- **Smart focus management** enables intuitive navigation between sidebar and terminal
 
-To complete this implementation:
-1. **SSH Connection Logic** using `russh` crate
-2. **Form Handling** for add/edit operations  
-3. **File Browser** for SSH key selection
-4. **Clipboard Integration** for SSH command copying
-5. **Configuration Persistence** for changes
+## 🚀 **Future Enhancements**
+
+Possible improvements and additions:
+1. **Session management** - Save and restore SSH sessions
+2. **Connection profiles** - Quick connect with predefined settings
+3. **File transfer integration** - SCP/SFTP support within the UI
+4. **Connection health monitoring** - Network latency and status indicators
+5. **Scripting support** - Automated command execution
+6. **Theme customization** - User-defined color schemes
+7. **Connection logging** - Session history and command logging
 
 ## 📈 **Performance Benefits**
 
